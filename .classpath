@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-9">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/google-api-services-customsearch-v1-rev59-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/google-api-services-customsearch-v1-rev59-1.23.0-javadoc.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/google-api-services-customsearch-v1-rev59-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/transaction-api-1.1-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/jetty-util-6.1.26-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/jetty-6.1.26-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/jdo2-api-2.3-eb-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/jackson-core-2.1.3-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/httpcore-4.0.1-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/httpclient-4.0.1-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/gson-2.1-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-oauth-client-servlet-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-oauth-client-jetty-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-oauth-client-java6-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-oauth-client-appengine-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-oauth-client-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-http-client-jdo-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-http-client-jackson2-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-http-client-gson-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-http-client-appengine-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-http-client-android-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-http-client-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-servlet-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-java6-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-jackson2-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-gson-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-appengine-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-android-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/google-api-client-1.23.0-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs-sources/commons-logging-1.1.1-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/transaction-api-1.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/jsr305-1.3.9.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/jetty-util-6.1.26.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/jetty-6.1.26.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/jdo2-api-2.3-eb.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/jackson-core-2.1.3.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/httpcore-4.0.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/httpclient-4.0.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/gson-2.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-oauth-client-servlet-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-oauth-client-jetty-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-oauth-client-java6-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-oauth-client-appengine-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-oauth-client-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-http-client-jdo-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-http-client-jackson2-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-http-client-gson-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-http-client-appengine-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-http-client-android-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-http-client-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-servlet-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-java6-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-jackson2-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-gson-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-appengine-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-android-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/google-api-client-1.23.0.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/media/tran/data/javaWorkplace/customsearch/libs/commons-logging-1.1.1.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
