@@ -1,5 +1,4 @@
-public class GImgDownloader {	
-			
+public class GImgDownloader {		
 	public static void main(String args[]) throws Exception{
 		new Thread(new Runnable() {
 		

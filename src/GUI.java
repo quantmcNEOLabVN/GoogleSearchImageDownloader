@@ -1,54 +1,33 @@
-import java.awt.Font;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.security.MessageDigest;
+import java.nio.channels.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import javax.swing.*;
+import com.google.api.client.http.*;
+import com.google.api.client.http.javanet.*;
+import com.google.api.client.json.jackson2.*;
+import com.google.api.services.customsearch.*;
+import com.google.api.services.customsearch.Customsearch.Builder;
+import com.google.api.services.customsearch.model.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.customsearch.Customsearch;
-import com.google.api.services.customsearch.model.Result;
-import com.google.api.services.customsearch.model.Search;
 public class GUI{
 	public JFrame mainFrame;
 	public TextField keywordBox,targetDBox;
-	public JButton buttonBrowse,buttonSearchImage,buttonDownload,buttonNext,buttonPrev;
-	public JPanel iliterateButtons;
-	public JLabel imgPanel;
+	public JButton buttonBrowse,buttonSearchImage,buttonDownload,buttonNext,buttonPrev,selectAll,selectNone;
+	public JPanel iterateButtons;	
 	public ArrayList<String> linkResult; 
 	public int indexLink;
 	public Customsearch myGSearchServ;
-	public JTextArea infoImg;
+	public JSpinner startIndexSelector;
 	private String apikey="AIzaSyBseCgmvsJ5L4QBzKYQUSAnxcQ2fWIEA_o",cx="006695016743302591096:zwejjbi9yay";
-	public ArrayList<String>histurl=new ArrayList<String>();
 	private void setupSearchService() {
-		myGSearchServ = new Customsearch(new NetHttpTransport(),new JacksonFactory(), new HttpRequestInitializer(){
-            public void initialize(HttpRequest httpRequest) {
+		
+		myGSearchServ = new Customsearch.Builder(new NetHttpTransport(), new JacksonFactory(),new HttpRequestInitializer() {
+			@Override
+			public void initialize(HttpRequest httpRequest) throws IOException {
                 try {
                     // set connect and read timeouts
                     httpRequest.setConnectTimeout(6000000);
@@ -57,9 +36,9 @@ public class GUI{
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }});
+			}
+		}).setApplicationName("GImgDownloader").build();
 	}
-	public String currentMD5="";
 	public long searchIndex=1;
 	public ArrayList<Result> totalResultList;
 	public void exeQuery(String keyword) {
@@ -69,152 +48,86 @@ public class GUI{
 	        list.setKey(apikey);
 	        list.setCx(cx);
 	        list.setSearchType("image");
+	        String fGet=filterGroup.getSelected();
+	        list.setImgSize(fGet);
 	        list.setStart(searchIndex);
 	        
 	        Search results=list.execute();
 	        resultList=results.getItems();
+	        
 	        for (int i=0;i<resultList.size();i++) {
 	        	Result res=resultList.get(i);
-	        	histurl.add(res.getLink());
-	        	
-	        	//System.out.println(res.getLink());
 	        	totalResultList.add(res);
 	        }
 	        searchIndex+=resultList.size();
+//	        startIndexSelector.setValue(searchIndex);
 	    }
 	    catch (  Exception e) {
 	        e.printStackTrace();
 	    }
 	    
 	}
-	public class fileNameGenerator{
-		public char [] fNameChars; 
-		public fileNameGenerator() {
-			this.reset();
-		}
-		public void reset() {
-			String dir=targetDBox.getText();
-			fNameChars=(dir+"/0000000").toCharArray();
-			 while (check()==false) next();				
-		}
-		public String[] types={".PNG",".png",".jpg",".JPG",".JPEG",".jpeg",".tiff",".TIFF",".tif",".TIF"};
-		public boolean check() {
-			String fName=getFName();
-			System.out.println(fName);
-			for (String fType:types) {
-				File f= new File(fName+fType);
-				if (f.isFile()==true) return false;
-			}
-			return true;
-		}
-		public String getFName() {
-			return String.valueOf(fNameChars);
-		}
-		public String generateFileName() {
-			while (check()==false) next();
-			System.out.println("File name generated: "+getFName());
-			return getFName();
-		}
-		private void next() {
-			int i=fNameChars.length-1;
-			while (true) {
-				if (fNameChars[i]=='9'){
-					fNameChars[i]='0';
-					i--;
-				}
-				else {
-					fNameChars[i]=(char)(((int)fNameChars[i])+1); 
-					break;
-				}
-			}	
-		}
-	};
-	public byte[] imageToMD5(BufferedImage buffImg,String fType) throws Exception{
-		
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		
-        byte[] data = ((DataBufferByte) buffImg.getData().getDataBuffer()).getData();
-
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(data);
-        byte[] hash = md.digest();
-        return hash;
-	}
-	public void showImg() throws Exception{	
-		try {
-			String thumburl=totalResultList.get(currentIndex).getImage().getThumbnailLink();
-			
-			BufferedImage image=ImageIO.read(new URL(thumburl));
-			
-			String fType="";
-			for (int i=thumburl.length()-1;i>=0;i--) {
-				if (thumburl.charAt(i)=='.') break;
-				fType=Character.toString(thumburl.charAt(i));
-			}
-			imgPanel.setIcon(new ImageIcon(image));
-			byte[] md5=imageToMD5(image, fType);
-			currentMD5=bytesToHexString(md5);
-			System.out.println(currentMD5);
-			imgPanel.repaint();
-		}catch(Exception e) {
-			System.out.println("Error in loading image thumb.");
-			e.printStackTrace();
-		}
-		mainFrame.repaint();
-		
-	}
-	public char[] hexDigit;
-	public String bytesToHexString(byte[] b) {
-		StringBuilder sb=new  StringBuilder();
-		for (int i=0;i<b.length;i++) {
-			int x=Byte.toUnsignedInt(b[i]);
-			//System.out.println(x);
-			sb.append(hexDigit[x/16]);
-			sb.append(hexDigit[x%16]);
-		}
-		return sb.toString();
-	}
-	public fileNameGenerator fNameGenerator;
 	
-	public void syncObj() {
-		hashMan.targetDir=targetDBox.getText();
-		hashMan.currentMD5=currentMD5;
-		
-	}
+	public FileNameGenerator fNameGenerator;
 	public HashesManager hashMan;
-	
+	public PicBoxesManager picMan;
+	public FilterGroup filterGroup;
 	public GUI() throws Exception {
-		
 		totalResultList=new ArrayList<Result>();
 		setupSearchService();
 		mainFrame=new JFrame();
 		mainFrame.setTitle("Google Image Downloader");
-		mainFrame.setSize(1040, 720);
+		mainFrame.setSize(2040, 1020);
+		mainFrame.setLocation(30, 30);
 		mainFrame.setLayout(null);
-		fNameGenerator=null;
+
+		
+		fNameGenerator=new FileNameGenerator();
 		keywordBox=new TextField();
 		keywordBox.setSize(800, 40);
 		keywordBox.setLocation(5, 5);
 		keywordBox.setFont(new Font(null, 0, 18));
 		mainFrame.add(keywordBox);
 		
+		filterGroup=new FilterGroup();
+		filterGroup.setLocation(5,48);
+		filterGroup.setSize(400,40);
+		mainFrame.add(filterGroup);
+		
+		JLabel idl=new JLabel("Starting index: ");
+		idl.setSize(150,40);
+		idl.setLocation(450,48);
+		idl.setFont(new Font(null, 0, 18));
+		mainFrame.add(idl);
+		
+		startIndexSelector=new JSpinner(new SpinnerNumberModel(1, 1, null, 10));
+		startIndexSelector.setLocation(590, 48);
+		startIndexSelector.setSize(120, 48);
+		startIndexSelector.setFont(new Font(null, 0, 18));
+		mainFrame.add(startIndexSelector);
+
 		buttonSearchImage = new JButton("Search Images");
-		buttonSearchImage.setSize(200, 40);
+		buttonSearchImage.setSize(200, 90);
 		buttonSearchImage.setLocation(810, 5);
 		mainFrame.add(buttonSearchImage);
-
 		
 		targetDBox=new TextField("targetDirectory");
 		targetDBox.setSize(800, 40);
-		targetDBox.setLocation(5, 50);
+		targetDBox.setLocation(5, 100);
 		targetDBox.setFont(new Font(null, 0, 18));
 		targetDBox.setEditable(false);
+		try{
+			new File(targetDBox.getText()).mkdir();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		mainFrame.add(targetDBox);
 		
 		
 		buttonBrowse = new JButton("Select Directory");
 		buttonBrowse.setSize(200, 40);
-		buttonBrowse.setLocation(810, 50);
+		buttonBrowse.setLocation(810, 100);
+		
 		buttonBrowse.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -228,63 +141,69 @@ public class GUI{
 		        f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
 		        f.showSaveDialog(null);
 		        
-		        System.out.println(f.getCurrentDirectory());
+		        //System.out.println(f.getCurrentDirectory());
 		        targetDBox.setEditable(true);
 		        targetDBox.setText(f.getSelectedFile().toString());
 		        targetDBox.setEditable(false);
 		        if (fNameGenerator==null)
-		        	fNameGenerator=new fileNameGenerator();
-		        fNameGenerator.reset();	
+		        	fNameGenerator=new FileNameGenerator();
+		        fNameGenerator.reset(targetDBox.getText());	
 		        try {
-					hashMan.reset();
+					hashMan.reset(targetDBox.getText());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		        syncObj();
 			}
 		});
+		
 		mainFrame.add(buttonBrowse);
 		
 		
-		iliterateButtons=new JPanel();
-		iliterateButtons.setSize(1080,50);
-		iliterateButtons.setLocation(5,100);
-		iliterateButtons.setLayout(null);
+		iterateButtons=new JPanel();
+		iterateButtons.setSize(1080,50);
+		iterateButtons.setLocation(5,150);
+		iterateButtons.setLayout(null);
 		
 		buttonPrev= new JButton("Previous");
 		buttonPrev.setSize(100, 40);
 		buttonPrev.setLocation(5, 5);
-		iliterateButtons.add(buttonPrev);
+		iterateButtons.add(buttonPrev);
 		
 		buttonDownload= new JButton("Download/Save");
 		buttonDownload.setSize(200, 40);
 		buttonDownload.setLocation(110, 5);
-		iliterateButtons.add(buttonDownload);
+		iterateButtons.add(buttonDownload);
 		
 		buttonNext= new JButton("Next");
 		buttonNext.setSize(200, 40);
 		buttonNext.setLocation(330, 5);
-		iliterateButtons.add(buttonNext);
+		iterateButtons.add(buttonNext);
 		
-	
-		mainFrame.add(iliterateButtons);
-		
-		imgPanel=new JLabel();
-		imgPanel.setLocation(5, 200);
-		mainFrame.add(imgPanel); 
-		imgPanel.setSize(500, 500);
+		selectAll=new JButton("Select All");
+		selectAll.setSize(200, 40);
+		selectAll.setLocation(540, 5);
+		iterateButtons.add(selectAll);
 		
 		
-		infoImg=new JTextArea();
-		infoImg.setSize(500,700);
-		infoImg.setLocation(520,230);
-		infoImg.setLineWrap(true);
-		infoImg.setFont(new Font(null, 0, 18));
-		mainFrame.add(infoImg);	
+		selectNone=new JButton("Select None");
+		selectNone.setSize(200, 40);
+		selectNone.setLocation(750,5);
+		iterateButtons.add(selectNone);
 		
-		hashMan=new HashesManager();
-		mainFrame.show();
+		
+		
+		mainFrame.add(iterateButtons);
+		
+		hashMan=new HashesManager(targetDBox.getText());
+		
+		picMan=new PicBoxesManager(hashMan,fNameGenerator);
+		picMan.setSize(1600,700);
+		picMan.setLocation(2, 210);
+		mainFrame.add(picMan);
+		
+		
+		mainFrame.setVisible(true);
 		addActionToButtons();
 		mainFrame.setDefaultCloseOperation(mainFrame.DO_NOTHING_ON_CLOSE);
 		mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -304,119 +223,177 @@ public class GUI{
 			        	}
 		        }
 		});
+		
+		KeyListener keylistener=new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int keycode=e.getKeyCode();
+				if (keycode==KeyEvent.VK_LEFT) {
+					buttonPrev.doClick();
+				}
+				if (keycode==KeyEvent.VK_RIGHT) {
+					buttonNext.doClick();
+				} 
+				if (keycode==KeyEvent.VK_ENTER) {
+					buttonDownload.doClick();					
+				}
+				if (keycode==KeyEvent.VK_A) {
+					selectAll.doClick();					
+				}
+				if (keycode==KeyEvent.VK_N) {
+					selectNone.doClick();					
+				}
+				if ((KeyEvent.VK_0<=keycode)&&(keycode<=KeyEvent.VK_9)) {
+					try {
+						picMan.keyselect(keycode-KeyEvent.VK_0);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		};
+		buttonDownload.addKeyListener(keylistener);
+		buttonNext.addKeyListener(keylistener);
+		buttonPrev.addKeyListener(keylistener);
+		selectAll.addKeyListener(keylistener);
+		selectNone.addKeyListener(keylistener);
+
+		keywordBox.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if (ke.getKeyCode()==KeyEvent.VK_ENTER) {
+					buttonSearchImage.doClick();
+					
+				}
+				
+			}
+		});
+	}
+	public int getStartIndex() {
+		try {
+			int x=(int)startIndexSelector.getValue();
+			if (x<=0) x=1;
+			else x=(x-(x%10))+1;
+			return x;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return 1; 
+		}
 	}
 	public int currentIndex;
-	public void updateInfo() {
-		Result res=totalResultList.get(currentIndex);
-		Result.Image img=res.getImage();
-		String text="Information:\n Original Dimension: "+Integer.toString(img.getWidth())+" x "+Integer.toString(img.getHeight())+"\n Link: "+res.getLink()+"\n\nthumb MD5:\n"+currentMD5;
-		if (hashMan.checkInlist()) {
-			text=text+"\nThis file has been downloaded!";
-			buttonDownload.setEnabled(false);
-		}else {
-			buttonDownload.setEnabled(true);
-		}
-		buttonDownload.repaint();
-		iliterateButtons.repaint();
-		infoImg.setText(text);
-		infoImg.repaint();
-		mainFrame.repaint();
-	}
+	
 	private void addActionToButtons() {
+
 		buttonSearchImage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				currentIndex=0;
-				histurl.clear();
 				totalResultList.clear();
-				currentMD5="";
-				try {
-					setupSearchService();
+				searchIndex=getStartIndex();
+				try{
+					
 					exeQuery(keywordBox.getText());
-					showImg();
-					updateInfo();
+					picMan.showResults(totalResultList.subList(currentIndex, Math.min(currentIndex+10, totalResultList.size())));
+					hashMan.reset(targetDBox.getText());
+					fNameGenerator.reset(targetDBox.getText());
+			
 				}catch (Exception e) {
-					infoImg.setText("");
 					JOptionPane.showMessageDialog(mainFrame, "can't find any result!");
 					e.printStackTrace();
 				}
+				
+			}	
+		});
+		buttonDownload.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mainFrame.setEnabled(false);
+				mainFrame.repaint();
+				picMan.doDownload();
+				mainFrame.setEnabled(true);
+				mainFrame.repaint();
 			}
 		});
 		buttonPrev.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				currentIndex=Math.max(0, currentIndex);
-				if (currentIndex==0) {		
-					JOptionPane.showMessageDialog(mainFrame, "can't find any results!");
-					return;
-				}
-				currentIndex--;
-				try {
-					showImg();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				updateInfo();
+				goPrev();
 			}
 		});
 		buttonNext.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				currentIndex++;
-				if (currentIndex>=histurl.size()) {
-					exeQuery(keywordBox.getText());
-					if (currentIndex>=histurl.size()) {
-						JOptionPane.showMessageDialog(mainFrame, "can't find anymore results!");
-						currentIndex--;
-						infoImg.setText("");
-						return;
-					}
-					
-				}
-				try {
-					showImg();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}					
-				updateInfo();
+				goNext();
 			}
 		});
-		
-		buttonDownload.addActionListener(new ActionListener() {
+		selectAll.addActionListener(new ActionListener() {
+			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {					
-				hashMan.addToList();
-				downloadFileFromURL(histurl.get(currentIndex), fNameGenerator.generateFileName());
+			public void actionPerformed(ActionEvent arg0) {
+				picMan.trySetSelected(true);
 			}
-		});
+		});		
+		selectNone.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				picMan.trySetSelected(false);
+			}
+		});		
 	}
-	public void downloadFileFromURL(String urlString, String fName) {  
-        new Thread(new Runnable() {
-			@Override
-			public void run() {
-				        try {
-				        	String fType="";
-				        	for (int i=urlString.length()-1;i>=0;i--) {
-				        		fType=Character.toString(urlString.charAt(i))+fType;
-				        		if (fType.charAt(0)=='.') break;
-				        	}
-				        	String destination=fName+fType;
-				            URL website = new URL(urlString);
-				            ReadableByteChannel rbc;
-				            rbc = Channels.newChannel(website.openStream());
-				            FileOutputStream fos = new FileOutputStream(destination);
-				            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-				            fos.close();
-				            rbc.close();
-				            System.out.println("File downloaded: "+destination);
-				            updateInfo();
-				        } catch (IOException e) {
-				        	System.out.println("File unable to downloaded: "+urlString);
-				            e.printStackTrace();
-				        }
-			}}).run();
-        
-    }
+	public void goPrev() {
+		if (currentIndex<10) {
+			JOptionPane.showMessageDialog(mainFrame, "can't find any older result!\nYou may want to drop down the starting index.");
+			return;
+		}
+		
+		try {
+			currentIndex-=10;
+			picMan.showResults(totalResultList.subList(currentIndex, Math.min(currentIndex+10, totalResultList.size())));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			currentIndex+=10;
+		}
+	}
+	public void goNext() {
+		try {
+			if (currentIndex+10>=totalResultList.size()) {
+				exeQuery(keywordBox.getText());
+			}
+			currentIndex+=10;
+			picMan.showResults(totalResultList.subList(currentIndex, Math.min(currentIndex+10, totalResultList.size())));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			currentIndex-=10;
+			JOptionPane.showMessageDialog(mainFrame, "can't find any more result!");
+		}
+	}
 }
